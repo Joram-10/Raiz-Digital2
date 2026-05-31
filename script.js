@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 // 2. CONEXIÓN A BASE DE DATOS (SUPABASE)
 // ==========================================
-const SUPABASE_URL = 'PEGAR_AQUI_TU_URL';
-const SUPABASE_ANON_KEY = 'PEGAR_AQUI_TU_ANON_KEY';
+const SUPABASE_URL = 'htndnkunwkbakgovclvd';
+const SUPABASE_ANON_KEY = 'sb_publishable_jlua7C81jbb2_qlxwsH-xA_GfgkxToF';
 
 // Inicializar el cliente de Supabase
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

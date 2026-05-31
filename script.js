@@ -1,22 +1,27 @@
 // ==========================================
-// 1. CONSUMO DE API 
+// 1. CONSUMO DE API (Nueva API sin bloqueos)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('https://dummyjson.com/quotes/random')
+    fetch('https://api.adviceslip.com/advice')
         .then(response => response.json())
         .then(data => {
             const apiContainer = document.getElementById('api-quote');
             if(apiContainer) {
-                apiContainer.innerText = `"${data.quote}" - ${data.author}`;
+                apiContainer.innerText = `"${data.slip.advice}"`;
             }
         })
-        .catch(error => console.error('Error cargando la API:', error));
+        .catch(error => {
+            console.error('Error cargando la API:', error);
+            const apiContainer = document.getElementById('api-quote');
+            if(apiContainer) apiContainer.innerText = "No se pudo cargar la frase hoy.";
+        });
 });
 
 // ==========================================
 // 2. CONEXIÓN A BASE DE DATOS (SUPABASE)
 // ==========================================
-const SUPABASE_URL = 'htndnkunwkbakgovclvd';
+// ¡Corregido! La URL debe llevar el formato completo para que funcione
+const SUPABASE_URL = 'https://htndnkunwkbakgovclvd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_jlua7C81jbb2_qlxwsH-xA_GfgkxToF';
 
 // Inicializar el cliente de Supabase

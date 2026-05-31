@@ -1,8 +1,7 @@
 // ==========================================
-// 1. CONSUMO DE API (Requisito de rúbrica)
+// 1. CONSUMO DE API 
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Usamos una API gratuita para traer una frase motivacional/salud
     fetch('https://dummyjson.com/quotes/random')
         .then(response => response.json())
         .then(data => {
@@ -15,14 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================
-// 2. CONEXIÓN A BASE DE DATOS (SUPABASE / VERCEL)
+// 2. CONEXIÓN A BASE DE DATOS (SUPABASE)
 // ==========================================
-// Sustituye estos valores con los de tu proyecto de Supabase
-const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
-const SUPABASE_ANON_KEY = 'TU_LLAVE_ANONIMA';
+const SUPABASE_URL = 'PEGAR_AQUI_TU_URL';
+const SUPABASE_ANON_KEY = 'PEGAR_AQUI_TU_ANON_KEY';
 
-// Inicializar el cliente (Solo funcionará cuando pongas tus llaves reales)
-// const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Inicializar el cliente de Supabase
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ==========================================
 // 3. FUNCIONES DE AUTENTICACIÓN
@@ -43,19 +41,20 @@ async function registrarDB(event) {
         return;
     }
 
-    /* LÓGICA REAL PARA SUPABASE (Descomentar al poner llaves):
+    // Registro real en Supabase
     const { data, error } = await supabase.auth.signUp({ email: email, password: pass });
-    if(error) alert(error.message);
-    else alert("Registro exitoso en la Base de Datos");
-    */
     
-    alert("Usuario registrado (Simulación hasta configurar llaves BD)");
-    window.location.href = "login.html";
+    if(error) {
+        alert("Error al registrar: " + error.message);
+    } else {
+        alert("¡Registro exitoso en la Base de Datos!");
+        window.location.href = "login.html";
+    }
 }
 
 async function loginDB(event) {
     if(event) event.preventDefault();
-    let email = document.getElementById("email").value; // Cambié 'usuario' por 'email' para la BD
+    let email = document.getElementById("email").value; 
     let pass = document.getElementById("password").value;
 
     if(!email || !pass) {
@@ -63,24 +62,21 @@ async function loginDB(event) {
         return;
     }
 
-    /* LÓGICA REAL PARA SUPABASE:
+    // Login real en Supabase
     const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: pass });
-    if(error) alert("Error: " + error.message);
-    else {
+    
+    if(error) {
+        alert("Error de credenciales: " + error.message);
+    } else {
         localStorage.setItem("sesion_activa", "true");
         window.location.href = "index.html";
     }
-    */
-
-    alert("Login exitoso procesado por Base de Datos");
-    localStorage.setItem("sesion_activa", "true");
-    window.location.href = "index.html"; 
 }
 
-function logoutDB() {
-    /* LÓGICA REAL PARA SUPABASE: await supabase.auth.signOut(); */
+async function logoutDB() {
+    await supabase.auth.signOut();
     localStorage.removeItem("sesion_activa");
-    alert("Sesión cerrada en el servidor");
+    alert("Sesión cerrada correctamente.");
     location.reload();
 }
 
@@ -94,20 +90,25 @@ async function enviarEncuestaDB(event) {
     let recomendar = document.querySelector('input[name="rec"]:checked').value;
     let comentarios = document.getElementById("comentarios").value;
 
-    /* LÓGICA REAL PARA INSERTAR EN TABLA SUPABASE:
+    // Inserción real en la tabla "encuestas"
     const { data, error } = await supabase.from('encuestas').insert([
         { calificacion: calificacion, recomendacion: recomendar, comentarios: comentarios }
     ]);
-    */
 
-    alert("¡Tus respuestas han sido guardadas en la Base de Datos!");
-    event.target.reset();
+    if(error) {
+        alert("Hubo un error al guardar: " + error.message);
+    } else {
+        alert("¡Tus respuestas han sido guardadas en la Base de Datos!");
+        event.target.reset();
+    }
 }
 
-// Verificar estado de sesión para cambiar los botones del Header
+// Control de botones en el Navbar según la sesión
 window.onload = function() {
     if(localStorage.getItem("sesion_activa") === "true") {
-        document.getElementById("btn-login").style.display = "none";
-        document.getElementById("btn-logout").style.display = "inline-block";
+        let btnLogin = document.getElementById("btn-login");
+        let btnLogout = document.getElementById("btn-logout");
+        if(btnLogin) btnLogin.style.display = "none";
+        if(btnLogout) btnLogout.style.display = "inline-block";
     }
 };

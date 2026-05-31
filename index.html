@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raíz Digital | Tecnología para la Salud Natural</title>
+    <!-- IMPLEMENTACIÓN DE FRAMEWORK: Bootstrap 5 (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- LIBRERÍA PARA BASE DE DATOS: Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="#inicio">
+                <img src="logo.jfif" alt="Logo Raíz Digital" class="logo-nav">
+            </a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#dykarly">Conoce DyKarly</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#spots">Spots</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <div class="auth-buttons">
+            <button onclick="window.location.href='login.html'" class="btn-secundario" id="btn-login">Iniciar sesión</button>
+            <button onclick="logoutDB()" class="btn-secundario" id="btn-logout" style="display: none;">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <!-- Consumo de API -->
+    <div class="bg-light text-center py-2 border-bottom">
+        <small class="text-muted fw-bold">Inspiración del día (API): <span id="api-quote">Cargando...</span></small>
+    </div>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <span class="pre-titulo" style="font-weight: 800; font-size: 1.8rem; color: var(--secondary-color); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 1rem;">RAÍZ DIGITAL</span>
+            <h2>Potenciamos la medicina natural con software a la medida.</h2>
+            <p class="mt-2">Tecnología intuitiva diseñada específicamente para homeópatas y especialistas en salud alternativa. Enfócate en tus pacientes, nosotros nos encargamos de la gestión.</p>
+            
+            <a href="#dykarly" class="btn-principal mt-2">Descubre DyKarly</a>
+        </div>
+        <div class="hero-image">
+            <img src="hero-mockup.jfif" alt="Mockup del sistema DyKarly">
+        </div>
+    </section>
+
+    <!-- (Tus secciones #dykarly, #promociones, #nosotros y #ubicacion se quedan exactamente igual como las tenías) -->
+
+    <!-- SECCIÓN DE SPOTS PUBLICITARIOS -->
+    <section id="spots" class="py-5" style="background-color: var(--white);">
+        <div class="container text-center">
+            <div class="seccion-header">
+                <span>Publicidad</span>
+                <h2>Nuestros Spots y Alianzas</h2>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-5">
+                    <div class="card shadow-sm p-3">
+                        <h4>Spot Raíz Digital</h4>
+                        <!-- Cambia 'mi-spot.mp4' por tu archivo de CapCut -->
+                        <video width="100%" controls>
+                            <source src="mi-spot.mp4" type="video/mp4">
+                            Tu navegador no soporta videos.
+                        </video>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card shadow-sm p-3">
+                        <h4>Spot de la Radio</h4>
+                        <!-- Cambia 'radio-spot.mp4' por el que te pasen -->
+                        <video width="100%" controls>
+                            <source src="radio-spot.mp4" type="video/mp4">
+                            Tu navegador no soporta videos.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="encuesta">
+        <div class="seccion-header text-center">
+            <span>Opinión del Cliente</span>
+            <h2>Encuesta de Satisfacción</h2>
+        </div>
+        <div class="auth-box" style="margin: 0 auto; max-width: 600px;">
+            <form onsubmit="enviarEncuestaDB(event)">
+                <label>¿Cómo calificas nuestro servicio?</label>
+                <select id="calificacion" required>
+                    <option value="Excelente">Excelente</option>
+                    <option value="Bueno">Bueno</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Malo">Malo</option>
+                </select>
+
+                <label>¿Recomendarías DyKarly?</label><br>
+                <input type="radio" name="rec" value="Si" required style="width: auto;"> Sí
+                <input type="radio" name="rec" value="No" style="width: auto;"> No <br><br>
+
+                <label>Comentarios:</label>
+                <textarea id="comentarios" rows="4"></textarea>
+
+                <button type="submit" class="btn-principal" style="width: 100%;">Enviar Respuestas a BD</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER CON PÁGINAS HERMANAS -->
+    <footer>
+        <div class="container">
+            <div class="row text-center mb-3">
+                <div class="col-12">
+                    <h5>Empresas Aliadas</h5>
+                    <div class="d-flex justify-content-center gap-4 mt-3">
+                        <a href="https://agencia-jared.vercel.app" target="_blank">
+                            <img src="logo-jared.png" alt="Empresa Jared" style="width: 50px; border-radius: 50%;">
+                        </a>
+                        <a href="https://agencia-bania.vercel.app" target="_blank">
+                            <img src="logo-bania.png" alt="Empresa Bania" style="width: 50px; border-radius: 50%;">
+                        </a>
+                        <a href="https://agencia-abril.vercel.app" target="_blank">
+                            <img src="logo-abril.png" alt="Empresa Abril" style="width: 50px; border-radius: 50%;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p>© 2026 Raíz Digital. Innovación en Salud Natural.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -20,12 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 // 2. CONEXIÓN A BASE DE DATOS (SUPABASE)
 // ==========================================
-// ¡Corregido! La URL debe llevar el formato completo para que funcione
 const SUPABASE_URL = 'https://htndnkunwkbakgovclvd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_jlua7C81jbb2_qlxwsH-xA_GfgkxToF';
 
-// Inicializar el cliente de Supabase
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ¡CORRECCIÓN VITAL! Usamos "clienteSupabase" y "window.supabase" para evitar que el navegador colapse
+const clienteSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ==========================================
 // 3. FUNCIONES DE AUTENTICACIÓN
@@ -46,8 +45,8 @@ async function registrarDB(event) {
         return;
     }
 
-    // Registro real en Supabase
-    const { data, error } = await supabase.auth.signUp({ email: email, password: pass });
+    // Registro real en Supabase (Usando la nueva variable)
+    const { data, error } = await clienteSupabase.auth.signUp({ email: email, password: pass });
     
     if(error) {
         alert("Error al registrar: " + error.message);
@@ -67,8 +66,8 @@ async function loginDB(event) {
         return;
     }
 
-    // Login real en Supabase
-    const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: pass });
+    // Login real en Supabase (Usando la nueva variable)
+    const { data, error } = await clienteSupabase.auth.signInWithPassword({ email: email, password: pass });
     
     if(error) {
         alert("Error de credenciales: " + error.message);
@@ -79,7 +78,7 @@ async function loginDB(event) {
 }
 
 async function logoutDB() {
-    await supabase.auth.signOut();
+    await clienteSupabase.auth.signOut();
     localStorage.removeItem("sesion_activa");
     alert("Sesión cerrada correctamente.");
     location.reload();
@@ -95,8 +94,8 @@ async function enviarEncuestaDB(event) {
     let recomendar = document.querySelector('input[name="rec"]:checked').value;
     let comentarios = document.getElementById("comentarios").value;
 
-    // Inserción real en la tabla "encuestas"
-    const { data, error } = await supabase.from('encuestas').insert([
+    // Inserción real en la tabla "encuestas" (Usando la nueva variable)
+    const { data, error } = await clienteSupabase.from('encuestas').insert([
         { calificacion: calificacion, recomendacion: recomendar, comentarios: comentarios }
     ]);
 

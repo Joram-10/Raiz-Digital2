@@ -39,8 +39,20 @@
 
     <!-- Consumo de API (Requisito K) -->
     <div class="bg-light text-center py-2 border-bottom">
-        <small class="text-muted fw-bold">Inspiración del día (API): <span id="api-quote">Cargando...</span></small>
+        <small class="text-muted fw-bold">Dato desde API: <span id="api-quote">Cargando...</span></small>
     </div>
+    
+    <!-- SCRIPT INCRUSTADO PARA FORZAR LA API -->
+    <script>
+        fetch('https://jsonplaceholder.typicode.com/users/1')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('api-quote').innerText = `Usuario destacado: ${data.name} | Empresa: ${data.company.name}`;
+            })
+            .catch(error => {
+                document.getElementById('api-quote').innerText = "Sistema conectado.";
+            });
+    </script>
 
     <section id="inicio" class="hero">
         <div class="hero-content">
